@@ -1,4 +1,6 @@
-void heart_n3() {
+#include "../src/action.h"
+
+void heart_n3(int* total1, int* total2, int* dwID) {
 	cls();
 	int i, rd, sc1 = 0, sc2 = 0, print_c = 0;
 	char ch;
@@ -100,12 +102,12 @@ void heart_n3() {
 	print_score(sc1, sc2);
 	if (sc1 > sc2) {
 		winner(16, 24);
-		p1_win();
+		p1_win(&total1, &total2, &dwID);
 	}
 	else if (sc2 > sc1) {
 		winner(50, 24);
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 	}
-	else tie();
+	else tie(&dwID);
 	Sleep(3000);
 }

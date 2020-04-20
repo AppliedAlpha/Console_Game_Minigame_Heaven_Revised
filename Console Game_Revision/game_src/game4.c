@@ -1,4 +1,6 @@
-void run_n4() {
+#include "../src/action.h"
+
+void run_n4(int* total1, int* total2, int* dwID) {
 	cls();
 	int i, j, rd, sc1 = 0, sc2 = 0;
 	int hold1 = 0, hold2 = 0;
@@ -90,12 +92,12 @@ void run_n4() {
 	print_score(sc1, sc2);
 	if (sc1 > sc2) {
 		winner(62, 4);
-		p1_win();
+		p1_win(&total1, &total2, &dwID);
 	}
 	else if (sc2 > sc1) {
 		winner(62, 21);
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 	}
-	else tie();
+	else tie(&dwID);
 	Sleep(3000);
 }

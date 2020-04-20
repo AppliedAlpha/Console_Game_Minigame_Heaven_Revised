@@ -1,4 +1,6 @@
-void click_n1() {
+#include "../src/action.h"
+
+void click_n1(int* total1, int* total2, int* dwID) {
 	cls();
 	int i, j, sc1 = 0, sc2 = 0;
 	{
@@ -66,13 +68,13 @@ void click_n1() {
 	print_score(sc1, sc2);
 	if (sc1 > sc2) {
 		winner(4, 2);
-		p1_win();
+		p1_win(&total1, &total2, &dwID);
 	}
 	else if (sc2 > sc1) {
 		winner(62, 2);
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 	}
-	else tie();
+	else tie(&dwID);
 	Sleep(3000);
 }
 //edit 

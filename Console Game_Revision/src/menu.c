@@ -2,9 +2,15 @@
 #include "sound.h"
 #include "action.h"
 
+char __gm[20][50] = {
+	"", "하노이 탑", "미로 찾기", "러브 찬스", "신호등 달리기",
+	"색칠 놀이", "도둑이야", "별똥별이다", "등짝을 보자", "이긴 사람",
+	"???", "???", "???", "???", "???", "???", "???","???", "???" };
+char __order[9] = { 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'F', 'G' };
+
 int selectmenu(int selcheck) {
 	char ch = 0;
-	if (selcheck) PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	if (selcheck) PlaySound(TEXT("audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
 	if (selcheck % 2) sm_np(cc_green);
 	else sm_np(c_white);
 	if (selcheck - 1 && selcheck > 0) sm_sp(cc_purple);
@@ -57,7 +63,7 @@ void maintitle(int selcheck) {
 
 	draw_title(getConsoleWindowHandle());
 	if (!selcheck) Sleep(800);
-	else PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	else PlaySound(TEXT("audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
 
 	while (1) {
 		if (kbhit()) {
@@ -195,15 +201,15 @@ void normalgame(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 		play_audio(&dwID, mciOpen, mciPlay);
 		waiting();
 		switch (arr[i]) {
-		case 1: click_n1(&total1, &total2); break;
-		case 2: maze_n2(&total1, &total2); break;
-		case 3: heart_n3(&total1, &total2); break;
-		case 4: run_n4(&total1, &total2); break;
-		case 5: color_n5(&total1, &total2); break;
-		case 6: thief_n6(&total1, &total2); break;
-		case 7: star_n7(&total1, &total2); break;
-		case 8: tail_n8(&total1, &total2); break;
-		case 9: guess_n9(&total1, &total2); break;
+		case 1: click_n1(&total1, &total2, &dwID); break;
+		case 2: maze_n2(&total1, &total2, &dwID); break;
+		case 3: heart_n3(&total1, &total2, &dwID); break;
+		case 4: run_n4(&total1, &total2, &dwID); break;
+		case 5: color_n5(&total1, &total2, &dwID); break;
+		case 6: thief_n6(&total1, &total2, &dwID); break;
+		case 7: star_n7(&total1, &total2, &dwID); break;
+		case 8: tail_n8(&total1, &total2, &dwID); break;
+		case 9: guess_n9(&total1, &total2, &dwID); break;
 		}
 		stopAllSounds(&dwID);
 		cls();
@@ -223,7 +229,7 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 	char ch;
 	int rc = rand() % 6 + 9;
 	tc(rc);
-	if (sel >= 0) PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	if (sel >= 0) PlaySound(TEXT("audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(14, 2);
 	printf("★ 시작할 게임을 선택하여 주십시오.");
 	gotoxy(66, 38);
@@ -243,7 +249,7 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 			printf("   ");
 		}
 		gotoxy(14, 3 + 3 * i);
-		printf("%d. %s", i, gm[i]);
+		printf("%d. %s", i, __gm[i]);
 		if (sel >= 10 && sel - 9 == i) {
 			tc(c_yellow);
 			gotoxy(44, 3 + 3 * i);
@@ -255,7 +261,7 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 			printf("    ");
 		}
 		gotoxy(48, 3 + 3 * i);
-		printf("%c. %s", order[i - 1], gm[i + 9]);
+		printf("%c. %s", __order[i - 1], __gm[i + 9]);
 	}
 	tc(cc_red);
 	if (sel == 0) {
@@ -272,7 +278,7 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 		if (kbhit()) {
 			ch = getch();
 			if (ch >= '0' && ch <= '9') {
-				selectgame(ch - 48);
+				selectgame(ch - 48, &dwID, mciOpen, mciPlay);
 				return;
 			}
 			else if (ch == ESC) {
@@ -287,7 +293,7 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 			}
 			else {
 				for (i = 0; i < 9; i++) {
-					if (ch == order[i] || ch == order[i] + 32) {
+					if (ch == __order[i] || ch == __order[i] + 32) {
 						selectgame(i + 10, &dwID, mciOpen, mciPlay);
 						return;
 					}
@@ -310,15 +316,15 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 	Sleep(100);
 	waiting();
 	switch (sel) {
-	case 1: click_n1(0, 0); break;
-	case 2: maze_n2(0, 0); break;
-	case 3: heart_n3(0, 0); break;
-	case 4: run_n4(0, 0); break;
-	case 5: color_n5(0, 0); break;
-	case 6: thief_n6(0, 0); break;
-	case 7: star_n7(0, 0); break;
-	case 8: tail_n8(0, 0); break;
-	case 9: guess_n9(0, 0); break;
+	case 1: click_n1(0, 0, &dwID); break;
+	case 2: maze_n2(0, 0, &dwID); break;
+	case 3: heart_n3(0, 0, &dwID); break;
+	case 4: run_n4(0, 0, &dwID); break;
+	case 5: color_n5(0, 0, &dwID); break;
+	case 6: thief_n6(0, 0, &dwID); break;
+	case 7: star_n7(0, 0, &dwID); break;
+	case 8: tail_n8(0, 0, &dwID); break;
+	case 9: guess_n9(0, 0, &dwID); break;
 	default: cls(); Sleep(900); break;
 	}
 	cls();

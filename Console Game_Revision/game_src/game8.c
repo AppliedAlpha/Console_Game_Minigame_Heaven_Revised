@@ -1,3 +1,6 @@
+#include "../src/action.h"
+int dir1 = -1, dir2 = -1;
+
 int check_snake(chrpos* snake, chrpos* snake2, int len) {
 	int i;
 	if (snake[0].posx < 0 || snake[0].posy < 0 || snake[0].posx > 37 || snake[0].posy > 33)
@@ -63,22 +66,7 @@ void move_snake(chrpos* p1_snake, chrpos* p2_snake, int len1, int len2) {
 }
 //뱀 이동
 
-
-
-/*여기서부터 게임 함수*/
-
-
-
-
-
-
-
-
-
-
-
-
-void tail_n8() {
+void tail_n8(int* total1, int* total2, int* dwID) {
 	cls();
 	normalbound(c_gray);
 	halfbound(c_gray, 2);
@@ -166,9 +154,9 @@ void tail_n8() {
 	}
 	switch (win) {
 	case -1: break;
-	case 0: tie(); break;
-	case 1: p1_win(); break;
-	case 2: p2_win(); break;
+	case 0: tie(&dwID); break;
+	case 1: p1_win(&total1, &total2, &dwID); break;
+	case 2: p2_win(&total1, &total2, &dwID); break;
 	}
 	Sleep(3000);
 }

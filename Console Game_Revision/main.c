@@ -28,8 +28,6 @@ DWORD m_dwDeviceID;
 MCI_OPEN_PARMS mciOpen;
 MCI_PLAY_PARMS mciPlay;
 
-int dir1 = -1, dir2 = -1;
-
 void main() {
 	srand(time(NULL));
 
@@ -44,7 +42,7 @@ void main() {
 	stopAllSounds(&dwID);
 	cls();
 	select_audio(&dwID, mciOpen, mciPlay);
-	enter_menu(&dwID, mciOpen, mciPlay); // <-
+	enter_menu(&dwID, mciOpen, mciPlay);
 
 	exit(0);
 	int finish = getchar();

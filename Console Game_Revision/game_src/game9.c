@@ -1,4 +1,6 @@
-void guess_n9() {
+#include "../src/action.h"
+
+void guess_n9(int* total1, int* total2, int* dwID) {
 	cls();
 	normalbound(c_gray);
 	halfbound(c_gray, 3);
@@ -119,8 +121,8 @@ void guess_n9() {
 		}
 	}
 	print_score(sc1, sc2);
-	if (sc1 > sc2) p1_win();
-	else if (sc2 > sc1) p2_win();
-	else tie();
+	if (sc1 > sc2) p1_win(&total1, &total2, &dwID);
+	else if (sc2 > sc1) p2_win(&total1, &total2, &dwID);
+	else tie(&dwID);
 	Sleep(3000);
 }

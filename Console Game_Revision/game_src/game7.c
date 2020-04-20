@@ -1,4 +1,6 @@
-void star_n7() {
+#include "../src/action.h"
+
+void star_n7(int* total1, int* total2, int* dwID) {
 	cls();
 	int map1[34][19] = {
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -207,15 +209,15 @@ void star_n7() {
 	print_score(sc1, sc2);
 	if (sc1 > sc2) {
 		tc(cc_cyan);
-		p1_win();
+		p1_win(&total1, &total2, &dwID);
 	}
 	else if (sc2 > sc1) {
 		tc(cc_red);
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 	}
 	else {
 		tc(cc_green);
-		tie();
+		tie(&dwID);
 	}
 	Sleep(3000);
 }

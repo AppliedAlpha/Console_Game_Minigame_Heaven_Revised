@@ -1,4 +1,6 @@
-void color_n5() {
+#include "../src/action.h"
+
+void color_n5(int* total1, int* total2, int* dwID) {
 	int i, j, game = 2000; //100=1ÃÊ;
 	int map[34][38] = { 0 };
 	cls();
@@ -170,7 +172,7 @@ void color_n5() {
 	gotoxy(72, 37);
 	printf("    ");
 	if (m1 > m2) {
-		p1_win();
+		p1_win(&total1, &total2, &dwID);
 		tc(cc_yellow);
 	}
 	else if (m1 < m2) tc(cc_red);
@@ -180,12 +182,12 @@ void color_n5() {
 	gotoxy(32, 37);
 	printf("%4d", m1);
 	if (m1 < m2) {
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 		tc(cc_yellow);
 	}
 	else if (m1 > m2) tc(cc_red);
 	else {
-		tie();
+		tie(&dwID);
 		tc(cc_cyan);
 	}
 	gotoxy(44, 37);

@@ -1,8 +1,11 @@
 #include "action.h"
+#include "sound.h"
 
-typedef struct {
-	int posx, posy;
-}chrpos;
+char gm[20][50] = { 
+	"", "하노이 탑", "미로 찾기", "러브 찬스", "신호등 달리기", 
+	"색칠 놀이", "도둑이야", "별똥별이다", "등짝을 보자", "이긴 사람",
+	"???", "???", "???", "???", "???", "???", "???","???", "???" };
+char order[9] = { 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'F', 'G' };
 
 void waiting() {
 	while (kbhit()) getch();
@@ -87,7 +90,7 @@ void spin(int num) {
 			printf("■");
 		}
 	}
-	PlaySound(TEXT("../audio/spin.wav"), 0, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT("audio/spin.wav"), 0, SND_FILENAME | SND_ASYNC);
 	for (i = 1; i <= 41; i++) {
 		spin_number((num + i + 8) % 9 + 1);
 		Sleep(50);
@@ -118,16 +121,16 @@ void explain(int num) {
 	HBITMAP nm, ex, ht, rd, g;
 	char name[100], explain[100], howto[100], ready[100], go[100];
 	int dpi = GetDPI(hWnd);
-	sprintf(explain, "../image/explain.bmp");
-	sprintf(ready, "../image/ready.bmp");
-	sprintf(go, "../image/go.bmp");
+	sprintf(explain, "image/explain.bmp");
+	sprintf(ready, "image/ready.bmp");
+	sprintf(go, "image/go.bmp");
 	
-	char name_path[] = "../image/0.bmp"; // 9
-	name_path[9] = num + '0';
+	char name_path[] = "image/0.bmp"; // 6
+	name_path[6] = num + '0';
 	sprintf(name, name_path);
 
-	char howto_path[] = "../image/h0.bmp"; // 10
-	howto_path[10] = num + '0';
+	char howto_path[] = "image/h0.bmp"; // 7
+	howto_path[7] = num + '0';
 	sprintf(howto, howto_path);
 	
 	nm = (HBITMAP)LoadImage(NULL, name, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
@@ -137,28 +140,28 @@ void explain(int num) {
 	g = (HBITMAP)LoadImage(NULL, go, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	paint(hWnd, dpi, nm, 800, 800);
 
-	char sound_path[] = "../audio/0.wav"; // 9
-	sound_path[9] = num + '0';
+	char sound_path[] = "audio/0.wav"; // 6
+	sound_path[6] = num + '0';
 	PlaySound(TEXT(sound_path), 0, SND_FILENAME);
 	
 	paint(hWnd, dpi, ex, 800, 800);
-	PlaySound(TEXT("../audio/explain.wav"), 0, SND_FILENAME);
+	PlaySound(TEXT("audio/explain.wav"), 0, SND_FILENAME);
 	cls();
 	Sleep(85);
 
 	paint(hWnd, dpi, ht, 800, 800);
-	PlaySound(TEXT("../audio/anticipation.wav"), 0, SND_FILENAME);
+	PlaySound(TEXT("audio/anticipation.wav"), 0, SND_FILENAME);
 	cls();
 	Sleep(85);
 
 	paint(hWnd, dpi, rd, 800, 800);
-	PlaySound(TEXT("../audio/ready.wav"), 0, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT("audio/ready.wav"), 0, SND_FILENAME | SND_ASYNC);
 	Sleep(2000);
 	cls();
 	Sleep(85);
 
 	paint(hWnd, dpi, g, 800, 800);
-	PlaySound(TEXT("../audio/go.wav"), 0, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT("audio/go.wav"), 0, SND_FILENAME | SND_ASYNC);
 	Sleep(1000);
 	cls();
 }
@@ -386,35 +389,35 @@ void remove_Heart(int a) {
 }
 //하트 삭제
 
-void p1_win() {
-	mciSendCommandW(dwID, MCI_CLOSE, 0, NULL);
-	PlaySound(TEXT("win.wav"), 0, SND_FILENAME | SND_ASYNC);
+void p1_win(int* total1, int* total2, int* dwID) {
+	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+	PlaySound(TEXT("audio/win.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(4, 37);
 	tc(cc_yellow);
 	printf("★ You Win! Please Wait...");
 	gotoxy(62, 37);
 	tc(cc_red);
 	printf("☆ You Lose...");
-	total1++;
+	(*total1)++;
 }
 //1P 승
 
-void p2_win() {
-	mciSendCommandW(dwID, MCI_CLOSE, 0, NULL);
-	PlaySound(TEXT("win.wav"), 0, SND_FILENAME | SND_ASYNC);
+void p2_win(int* total1, int* total2, int* dwID) {
+	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+	PlaySound(TEXT("audio/win.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(50, 37);
 	tc(cc_yellow);
 	printf("★ You Win! Please Wait...");
 	gotoxy(4, 37);
 	tc(cc_red);
 	printf("☆ You Lose...");
-	total2++;
+	(*total2)++;
 }
 //2P 승
 
-void tie() {
-	mciSendCommandW(dwID, MCI_CLOSE, 0, NULL);
-	PlaySound(TEXT("tie.wav"), 0, SND_FILENAME | SND_ASYNC);
+void tie(int *dwID) {
+	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+	PlaySound(TEXT("audio/tie.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(4, 37);
 	tc(cc_green);
 	printf("☆ Well done!!");

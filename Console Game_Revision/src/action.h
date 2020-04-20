@@ -45,11 +45,9 @@
 #define cc_white 15
 #define MCI_DGV_PLAY_REPEAT 0x00010000L
 
-char gm[20][50] = {
-	"", "하노이 탑", "미로 찾기", "러브 찬스", "신호등 달리기",
-	"색칠 놀이", "도둑이야", "별똥별이다", "등짝을 보자", "이긴 사람",
-	"???", "???", "???", "???", "???", "???", "???","???", "???" };
-char order[9] = { 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'F', 'G' };
+typedef struct {
+	int posx, posy;
+}chrpos;
 
 void waiting();
 void cls();
@@ -71,9 +69,9 @@ void print_halfmoon(int a, int b);
 void print_Heart(int a);
 void remove_Heart(int a);
 
-void p1_win();
-void p2_win();
-void tie();
+void p1_win(int* total1, int* total2, int* dwID);
+void p2_win(int* total1, int* total2, int* dwID);
+void tie(int* dwID);
 
 void print_bike(int x, int y, int c);
 void print_line(int y, int* line, int move);

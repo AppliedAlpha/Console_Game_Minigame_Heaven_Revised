@@ -1,4 +1,6 @@
-void maze_n2() {
+#include "../src/action.h"
+
+void maze_n2(int* total1, int* total2, int* dwID) {
 	cls();
 	int i, j, x = 0, y = 0, rt;
 	chrpos p1 = { 0,0 };
@@ -129,7 +131,7 @@ void maze_n2() {
 		if ((p1.posx == MAZE_SIZE_X - 1 && p1.posy == MAZE_SIZE_Y - 2) || (p2.posx == MAZE_SIZE_X - 1 && p2.posy == MAZE_SIZE_Y - 2))  break;
 	}
 	if (p1.posx == MAZE_SIZE_X - 1 && p1.posy == MAZE_SIZE_Y - 2) {
-		if (p2.posx == MAZE_SIZE_X - 1 && p2.posy == MAZE_SIZE_Y - 2) tie();
+		if (p2.posx == MAZE_SIZE_X - 1 && p2.posy == MAZE_SIZE_Y - 2) tie(&dwID);
 		else {
 			for (i = 12; i < 30; i++) {
 				for (j = 15; j < 21; j++) {
@@ -138,7 +140,7 @@ void maze_n2() {
 				}
 			}
 			winner(14, 16);
-			p1_win();
+			p1_win(&total1, &total2, &dwID);
 		}
 	}
 	else if (p2.posx == MAZE_SIZE_X - 1 && p2.posy == MAZE_SIZE_Y - 2) {
@@ -149,7 +151,7 @@ void maze_n2() {
 			}
 		}
 		winner(54, 16);
-		p2_win();
+		p2_win(&total1, &total2, &dwID);
 	}
 	Sleep(3000);
 }
