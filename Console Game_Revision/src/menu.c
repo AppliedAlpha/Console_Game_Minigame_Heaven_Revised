@@ -1,8 +1,10 @@
 #include "menu.h"
+#include "sound.h"
+#include "action.h"
 
-void selectmenu(int selcheck) {
+int selectmenu(int selcheck) {
 	char ch = 0;
-	if (selcheck) PlaySound(TEXT("tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	if (selcheck) PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
 	if (selcheck % 2) sm_np(cc_green);
 	else sm_np(c_white);
 	if (selcheck - 1 && selcheck > 0) sm_sp(cc_purple);
@@ -35,8 +37,7 @@ void selectmenu(int selcheck) {
 		}
 	}
 	if (selcheck == 0) selcheck = 1;
-	selme = selcheck - 1;
-	return;
+	return selcheck - 1;
 }
 
 void maintitle(int selcheck) {
@@ -54,16 +55,10 @@ void maintitle(int selcheck) {
 	}
 	tc(c_white);
 
-	char filename[100];
-	int dpi;
-	HBITMAP bitmap;
-	HWND hWnd = getConsoleWindowHandle();
-	dpi = GetDPI(hWnd);
-	sprintf(filename, "Title.bmp");
-	bitmap = (HBITMAP)LoadImage(NULL, filename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	paint(hWnd, dpi, bitmap, 800, 440);
+	draw_title(getConsoleWindowHandle());
 	if (!selcheck) Sleep(800);
-	if (selcheck) PlaySound(TEXT("tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	else PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+
 	while (1) {
 		if (kbhit()) {
 			ch = getch();
@@ -90,181 +85,8 @@ void maintitle(int selcheck) {
 		exit(0);
 	}
 }
-//메인 화면 출력 함수
 
-void enter_menu(int* dwID) {
-	while (1) {
-		waiting();
-		selectmenu(0); //메뉴 고르기
-		stopAllSounds(&dwID); //소리 정지
-		if (!selme) normalgame(); //노말
-		else {
-			cls();
-			normalbound(c_gray);
-			selectgame(0); //선택
-		}
-	}
-}
-
-void spin_number(int a) {
-	tc(c_gray);
-	gotoxy(7, 21);
-	printf("%1d", (a + 5) % 9 + 1);
-	gotoxy(19, 21);
-	printf("%1d", (a + 6) % 9 + 1);
-	gotoxy(31, 21);
-	printf("%1d", (a + 7) % 9 + 1);
-	gotoxy(49, 21);
-	printf("%1d", a % 9 + 1);
-	gotoxy(61, 21);
-	printf("%1d", (a + 1) % 9 + 1);
-	gotoxy(73, 21);
-	printf("%1d", (a + 2) % 9 + 1);
-	tc(cc_white);
-	gotoxy(40, 21);
-	printf("%1d", a);
-}
-
-void spin(int a) {
-	int i;
-	{
-		tc(cc_yellow);
-		gotoxy(32, 9);
-		printf("■■■■■■■■");
-		gotoxy(32, 10);
-		printf("■            ■");
-		gotoxy(34, 11);
-		printf("■        ■");
-		gotoxy(34, 12);
-		printf("■        ■");
-		gotoxy(36, 13);
-		printf("■    ■");
-		gotoxy(36, 14);
-		printf("■    ■");
-		gotoxy(38, 15);
-		printf("■■");
-		gotoxy(38, 16);
-		printf("■■");
-		tc(cc_cyan);
-		for (i = 18; i <= 24; i++) {
-			gotoxy(36, i);
-			if (i == 18 || i == 24) printf("■■■■");
-			else printf("■    ■");
-		}
-		tc(c_gray);
-		gotoxy(2, 18);
-		printf("■■■■■■■■■■■■■■■■■");
-		gotoxy(44, 18);
-		printf("■■■■■■■■■■■■■■■■■");
-		gotoxy(2, 24);
-		printf("■■■■■■■■■■■■■■■■■");
-		gotoxy(44, 24);
-		printf("■■■■■■■■■■■■■■■■■");
-		for (i = 19; i <= 23; i++) {
-			gotoxy(12, i);
-			printf("■");
-			gotoxy(24, i);
-			printf("■");
-			gotoxy(54, i);
-			printf("■");
-			gotoxy(66, i);
-			printf("■");
-		}
-	}
-	PlaySound(TEXT("spin.wav"), 0, SND_FILENAME | SND_ASYNC);
-	for (i = 1; i <= 41; i++) {
-		spin_number((a + i + 8) % 9 + 1);
-		Sleep(50);
-	}
-	for (i = 42; i <= 81; i++) {
-		spin_number((a + i + 8) % 9 + 1);
-		Sleep(95);
-	}
-	for (i = 82; i <= 87; i++) {
-		spin_number((a + i + 8) % 9 + 1);
-		Sleep(280);
-	}
-	for (i = 88; i <= 90; i++) {
-		spin_number((a + i + 8) % 9 + 1);
-		Sleep(340);
-	}
-	spin_number(a);
-	gotoxy(24, 30);
-	tc(cc_yellow);
-	printf("\"%s\"", gm[a]);
-	tc(c_white);
-	printf(" 게임을 시작합니다!");
-	Sleep(2000);
-}
-
-void explain(int a) {
-	char name[100], explain[100], howto[100], ready[100], go[100];
-	int dpi;
-	HBITMAP nm, ex, ht, rd, g;
-	HWND hWnd = getConsoleWindowHandle();
-	dpi = GetDPI(hWnd);
-	sprintf(explain, "explain.bmp");
-	sprintf(ready, "ready.bmp");
-	sprintf(go, "go.bmp");
-	switch (a) {
-	case 1: sprintf(name, "1.bmp"); break;
-	case 2: sprintf(name, "2.bmp"); break;
-	case 3: sprintf(name, "3.bmp"); break;
-	case 4: sprintf(name, "4.bmp"); break;
-	case 5: sprintf(name, "5.bmp"); break;
-	case 6: sprintf(name, "6.bmp"); break;
-	case 7: sprintf(name, "7.bmp"); break;
-	case 8: sprintf(name, "8.bmp"); break;
-	case 9: sprintf(name, "9.bmp"); break;
-	}
-	switch (a) {
-	case 1: sprintf(howto, "h1.bmp"); break;
-	case 2: sprintf(howto, "h2.bmp"); break;
-	case 3: sprintf(howto, "h3.bmp"); break;
-	case 4: sprintf(howto, "h4.bmp"); break;
-	case 5: sprintf(howto, "h5.bmp"); break;
-	case 6: sprintf(howto, "h6.bmp"); break;
-	case 7: sprintf(howto, "h7.bmp"); break;
-	case 8: sprintf(howto, "h8.bmp"); break;
-	case 9: sprintf(howto, "h9.bmp"); break;
-	}
-	nm = (HBITMAP)LoadImage(NULL, name, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	ex = (HBITMAP)LoadImage(NULL, explain, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	ht = (HBITMAP)LoadImage(NULL, howto, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	rd = (HBITMAP)LoadImage(NULL, ready, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	g = (HBITMAP)LoadImage(NULL, go, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	paint(hWnd, dpi, nm, 800, 800);
-	switch (a) {
-	case 1: PlaySound(TEXT("1.wav"), 0, SND_FILENAME); break;
-	case 2: PlaySound(TEXT("2.wav"), 0, SND_FILENAME); break;
-	case 3: PlaySound(TEXT("3.wav"), 0, SND_FILENAME); break;
-	case 4: PlaySound(TEXT("4.wav"), 0, SND_FILENAME); break;
-	case 5: PlaySound(TEXT("5.wav"), 0, SND_FILENAME); break;
-	case 6: PlaySound(TEXT("6.wav"), 0, SND_FILENAME); break;
-	case 7: PlaySound(TEXT("7.wav"), 0, SND_FILENAME); break;
-	case 8: PlaySound(TEXT("8.wav"), 0, SND_FILENAME); break;
-	case 9: PlaySound(TEXT("9.wav"), 0, SND_FILENAME); break;
-	}
-	paint(hWnd, dpi, ex, 800, 800);
-	PlaySound(TEXT("explain.wav"), 0, SND_FILENAME);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, ht, 800, 800);
-	PlaySound(TEXT("anticipation.wav"), 0, SND_FILENAME);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, rd, 800, 800);
-	PlaySound(TEXT("ready.wav"), 0, SND_FILENAME | SND_ASYNC);
-	Sleep(2000);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, g, 800, 800);
-	PlaySound(TEXT("go.wav"), 0, SND_FILENAME | SND_ASYNC);
-	Sleep(1000);
-	cls();
-}
-
-int again() {
+int again(int total1, int total2) {
 	cls();
 	int i, j;
 	char ch;
@@ -352,13 +174,12 @@ int again() {
 	}
 }
 
-void normalgame() {
+void normalgame(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 	int arr[9];
 	int i, j, rd, tmp;
 	cls();
 	normalbound(c_gray);
-	total1 = 0;
-	total2 = 0;
+	int total1 = 0, total2 = 0;
 	for (i = 0; i < 9; i++) arr[i] = i + 1;
 	for (i = 0; i < 8; i++) {
 		rd = rand() % (9 - i) + i;
@@ -370,51 +191,39 @@ void normalgame() {
 		spin(arr[i]);
 		explain(arr[i]);
 		Sleep(100);
-		while (kbhit()) getch();
-		mciOpen.lpstrElementName = "dating_tense.mp3";
-		mciOpen.lpstrDeviceType = "mpegvideo";
-		mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-		dwID = mciOpen.wDeviceID;
-		mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)& mciPlay);
-		while (kbhit()) getch();
+		waiting();
+		play_audio(&dwID, mciOpen, mciPlay);
+		waiting();
 		switch (arr[i]) {
-		case 1: click_n1(); break;
-		case 2: maze_n2(); break;
-		case 3: heart_n3(); break;
-		case 4: run_n4(); break;
-		case 5: color_n5(); break;
-		case 6: thief_n6(); break;
-		case 7: star_n7(); break;
-		case 8: tail_n8(); break;
-		case 9: guess_n9(); break;
+		case 1: click_n1(&total1, &total2); break;
+		case 2: maze_n2(&total1, &total2); break;
+		case 3: heart_n3(&total1, &total2); break;
+		case 4: run_n4(&total1, &total2); break;
+		case 5: color_n5(&total1, &total2); break;
+		case 6: thief_n6(&total1, &total2); break;
+		case 7: star_n7(&total1, &total2); break;
+		case 8: tail_n8(&total1, &total2); break;
+		case 9: guess_n9(&total1, &total2); break;
 		}
-		stopAllSounds(dwID);
+		stopAllSounds(&dwID);
 		cls();
 		normalbound(c_gray);
-		while (kbhit()) getch();
+		waiting();
 	}
-	if (again()) {
-		{
-			PlaySound(TEXT("select_mode.wav"), 0, SND_FILENAME | SND_ASYNC);
-			Sleep(20);
-			mciOpen.lpstrElementName = "sunburst.mp3";
-			mciOpen.lpstrDeviceType = "mpegvideo";
-			mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-			dwID = mciOpen.wDeviceID;
-			mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)& mciPlay);
-		}
-		while (kbhit()) getch();
+	if (again(total1, total2)) {
+		select_audio(&dwID, mciOpen, mciPlay);
+		waiting();
 		return;
 	}
 	else exit(0);
 }
 
-void selectgame(int sel) {
+void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 	int i;
 	char ch;
 	int rc = rand() % 6 + 9;
 	tc(rc);
-	if (sel >= 0) PlaySound(TEXT("tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
+	if (sel >= 0) PlaySound(TEXT("../audio/tp_click.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(14, 2);
 	printf("★ 시작할 게임을 선택하여 주십시오.");
 	gotoxy(66, 38);
@@ -468,18 +277,18 @@ void selectgame(int sel) {
 			}
 			else if (ch == ESC) {
 				if (sel <= -1) {
-					selectgame(-2);
+					selectgame(-2, &dwID, mciOpen, mciPlay);
 					return;
 				}
 				else {
-					selectgame(-1);
+					selectgame(-1, &dwID, mciOpen, mciPlay);
 					return;
 				}
 			}
 			else {
 				for (i = 0; i < 9; i++) {
 					if (ch == order[i] || ch == order[i] + 32) {
-						selectgame(i + 10);
+						selectgame(i + 10, &dwID, mciOpen, mciPlay);
 						return;
 					}
 				}
@@ -494,31 +303,41 @@ void selectgame(int sel) {
 		return;
 	}
 	if (sel >= 1 && sel <= 9) {
-		while (kbhit()) getch();
+		waiting();
 		explain(sel);
-		mciOpen.lpstrElementName = "dating_tense.mp3";
-		mciOpen.lpstrDeviceType = "mpegvideo";
-		mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-		dwID = mciOpen.wDeviceID;
-		mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)& mciPlay);
+		play_audio(&dwID, mciOpen, mciPlay);
 	}
 	Sleep(100);
-	while (kbhit()) getch();
+	waiting();
 	switch (sel) {
-	case 1: click_n1(); break;
-	case 2: maze_n2(); break;
-	case 3: heart_n3(); break;
-	case 4: run_n4(); break;
-	case 5: color_n5(); break;
-	case 6: thief_n6(); break;
-	case 7: star_n7(); break;
-	case 8: tail_n8(); break;
-	case 9: guess_n9(); break;
-	default: cls(); /*printf("%d", sel);*/ Sleep(900); break;
+	case 1: click_n1(0, 0); break;
+	case 2: maze_n2(0, 0); break;
+	case 3: heart_n3(0, 0); break;
+	case 4: run_n4(0, 0); break;
+	case 5: color_n5(0, 0); break;
+	case 6: thief_n6(0, 0); break;
+	case 7: star_n7(0, 0); break;
+	case 8: tail_n8(0, 0); break;
+	case 9: guess_n9(0, 0); break;
+	default: cls(); Sleep(900); break;
 	}
 	cls();
 	normalbound(c_gray);
-	while (kbhit()) getch();
-	selectgame(0);
+	waiting();
+	selectgame(0, &dwID, mciOpen, mciPlay);
 	return;
+}
+
+void enter_menu(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
+	while (1) {
+		waiting();
+		int selme = selectmenu(0); //메뉴 고르기
+		stopAllSounds(&dwID); //소리 정지
+		if (!selme) normalgame(&dwID, mciOpen, mciPlay); //노말
+		else {
+			cls();
+			normalbound(c_gray);
+			selectgame(0, &dwID, mciOpen, mciPlay); //선택
+		}
+	}
 }

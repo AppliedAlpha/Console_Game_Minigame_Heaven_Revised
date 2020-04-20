@@ -82,3 +82,12 @@ void open(HWND hWnd) {
 	}
 	system("color 0f");
 }
+
+void draw_title(HWND hWnd) {
+	char open_image[100];
+	int dpi = GetDPI(hWnd);
+	HBITMAP im;
+	sprintf(open_image, "image/Title.bmp");
+	im = (HBITMAP)LoadImage(NULL, open_image, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	paint(hWnd, dpi, im, 800, 440);
+}

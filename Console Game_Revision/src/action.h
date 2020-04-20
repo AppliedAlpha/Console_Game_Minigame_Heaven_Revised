@@ -45,6 +45,12 @@
 #define cc_white 15
 #define MCI_DGV_PLAY_REPEAT 0x00010000L
 
+char gm[20][50] = {
+	"", "하노이 탑", "미로 찾기", "러브 찬스", "신호등 달리기",
+	"색칠 놀이", "도둑이야", "별똥별이다", "등짝을 보자", "이긴 사람",
+	"???", "???", "???", "???", "???", "???", "???","???", "???" };
+char order[9] = { 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'F', 'G' };
+
 void waiting();
 void cls();
 void gotoxy(int x, int y);

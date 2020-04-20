@@ -22,6 +22,146 @@ void tc(int color) {
 }
 //문자 색깔 지정
 
+void spin_number(int num) {
+	tc(c_gray);
+	gotoxy(7, 21);
+	printf("%1d", (num + 5) % 9 + 1);
+	gotoxy(19, 21);
+	printf("%1d", (num + 6) % 9 + 1);
+	gotoxy(31, 21);
+	printf("%1d", (num + 7) % 9 + 1);
+	gotoxy(49, 21);
+	printf("%1d", num % 9 + 1);
+	gotoxy(61, 21);
+	printf("%1d", (num + 1) % 9 + 1);
+	gotoxy(73, 21);
+	printf("%1d", (num + 2) % 9 + 1);
+	tc(cc_white);
+	gotoxy(40, 21);
+	printf("%1d", num);
+}
+
+void spin(int num) {
+	int i;
+	{
+		tc(cc_yellow);
+		gotoxy(32, 9);
+		printf("■■■■■■■■");
+		gotoxy(32, 10);
+		printf("■            ■");
+		gotoxy(34, 11);
+		printf("■        ■");
+		gotoxy(34, 12);
+		printf("■        ■");
+		gotoxy(36, 13);
+		printf("■    ■");
+		gotoxy(36, 14);
+		printf("■    ■");
+		gotoxy(38, 15);
+		printf("■■");
+		gotoxy(38, 16);
+		printf("■■");
+		tc(cc_cyan);
+		for (i = 18; i <= 24; i++) {
+			gotoxy(36, i);
+			if (i == 18 || i == 24) printf("■■■■");
+			else printf("■    ■");
+		}
+		tc(c_gray);
+		gotoxy(2, 18);
+		printf("■■■■■■■■■■■■■■■■■");
+		gotoxy(44, 18);
+		printf("■■■■■■■■■■■■■■■■■");
+		gotoxy(2, 24);
+		printf("■■■■■■■■■■■■■■■■■");
+		gotoxy(44, 24);
+		printf("■■■■■■■■■■■■■■■■■");
+		for (i = 19; i <= 23; i++) {
+			gotoxy(12, i);
+			printf("■");
+			gotoxy(24, i);
+			printf("■");
+			gotoxy(54, i);
+			printf("■");
+			gotoxy(66, i);
+			printf("■");
+		}
+	}
+	PlaySound(TEXT("../audio/spin.wav"), 0, SND_FILENAME | SND_ASYNC);
+	for (i = 1; i <= 41; i++) {
+		spin_number((num + i + 8) % 9 + 1);
+		Sleep(50);
+	}
+	for (i = 42; i <= 81; i++) {
+		spin_number((num + i + 8) % 9 + 1);
+		Sleep(95);
+	}
+	for (i = 82; i <= 87; i++) {
+		spin_number((num + i + 8) % 9 + 1);
+		Sleep(280);
+	}
+	for (i = 88; i <= 90; i++) {
+		spin_number((num + i + 8) % 9 + 1);
+		Sleep(340);
+	}
+	spin_number(num);
+	gotoxy(24, 30);
+	tc(cc_yellow);
+	printf("\"%s\"", gm[num]);
+	tc(c_white);
+	printf(" 게임을 시작합니다!");
+	Sleep(2000);
+}
+
+void explain(int num) {
+	HWND hWnd = getConsoleWindowHandle();
+	HBITMAP nm, ex, ht, rd, g;
+	char name[100], explain[100], howto[100], ready[100], go[100];
+	int dpi = GetDPI(hWnd);
+	sprintf(explain, "../image/explain.bmp");
+	sprintf(ready, "../image/ready.bmp");
+	sprintf(go, "../image/go.bmp");
+	
+	char name_path[] = "../image/0.bmp"; // 9
+	name_path[9] = num + '0';
+	sprintf(name, name_path);
+
+	char howto_path[] = "../image/h0.bmp"; // 10
+	howto_path[10] = num + '0';
+	sprintf(howto, howto_path);
+	
+	nm = (HBITMAP)LoadImage(NULL, name, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	ex = (HBITMAP)LoadImage(NULL, explain, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	ht = (HBITMAP)LoadImage(NULL, howto, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	rd = (HBITMAP)LoadImage(NULL, ready, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	g = (HBITMAP)LoadImage(NULL, go, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	paint(hWnd, dpi, nm, 800, 800);
+
+	char sound_path[] = "../audio/0.wav"; // 9
+	sound_path[9] = num + '0';
+	PlaySound(TEXT(sound_path), 0, SND_FILENAME);
+	
+	paint(hWnd, dpi, ex, 800, 800);
+	PlaySound(TEXT("../audio/explain.wav"), 0, SND_FILENAME);
+	cls();
+	Sleep(85);
+
+	paint(hWnd, dpi, ht, 800, 800);
+	PlaySound(TEXT("../audio/anticipation.wav"), 0, SND_FILENAME);
+	cls();
+	Sleep(85);
+
+	paint(hWnd, dpi, rd, 800, 800);
+	PlaySound(TEXT("../audio/ready.wav"), 0, SND_FILENAME | SND_ASYNC);
+	Sleep(2000);
+	cls();
+	Sleep(85);
+
+	paint(hWnd, dpi, g, 800, 800);
+	PlaySound(TEXT("../audio/go.wav"), 0, SND_FILENAME | SND_ASYNC);
+	Sleep(1000);
+	cls();
+}
 
 void print_score(int sc1, int sc2) {
 	gotoxy(32, 37);
