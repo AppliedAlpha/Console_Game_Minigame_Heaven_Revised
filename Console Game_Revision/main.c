@@ -32,8 +32,8 @@ void main() {
 	srand(time(NULL));
 
 	init_screen();
-	open_audio(&dwID, mciOpen, mciPlay);
-	open(getConsoleWindowHandle());
+	//open_audio(&dwID, mciOpen, mciPlay);
+	//open(getConsoleWindowHandle());
 
 	waiting();
 	title_audio(&dwID, mciOpen, mciPlay);

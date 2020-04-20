@@ -389,8 +389,8 @@ void remove_Heart(int a) {
 }
 //ÇÏÆ® »èÁ¦
 
-void p1_win(int* total1, int* total2, int* dwID) {
-	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+void p1_win(int** total1, int** total2, int** dwID) {
+	mciSendCommandW(**dwID, MCI_CLOSE, 0, NULL);
 	PlaySound(TEXT("audio/win.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(4, 37);
 	tc(cc_yellow);
@@ -398,12 +398,12 @@ void p1_win(int* total1, int* total2, int* dwID) {
 	gotoxy(62, 37);
 	tc(cc_red);
 	printf("¡Ù You Lose...");
-	(*total1)++;
+	(**total1)++;
 }
 //1P ½Â
 
-void p2_win(int* total1, int* total2, int* dwID) {
-	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+void p2_win(int** total1, int** total2, int** dwID) {
+	mciSendCommandW(**dwID, MCI_CLOSE, 0, NULL);
 	PlaySound(TEXT("audio/win.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(50, 37);
 	tc(cc_yellow);
@@ -411,12 +411,12 @@ void p2_win(int* total1, int* total2, int* dwID) {
 	gotoxy(4, 37);
 	tc(cc_red);
 	printf("¡Ù You Lose...");
-	(*total2)++;
+	(**total2)++;
 }
 //2P ½Â
 
-void tie(int *dwID) {
-	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);
+void tie(int **dwID) {
+	mciSendCommandW(**dwID, MCI_CLOSE, 0, NULL);
 	PlaySound(TEXT("audio/tie.wav"), 0, SND_FILENAME | SND_ASYNC);
 	gotoxy(4, 37);
 	tc(cc_green);

@@ -69,9 +69,9 @@ void print_halfmoon(int a, int b);
 void print_Heart(int a);
 void remove_Heart(int a);
 
-void p1_win(int* total1, int* total2, int* dwID);
-void p2_win(int* total1, int* total2, int* dwID);
-void tie(int* dwID);
+void p1_win(int** total1, int** total2, int** dwID);
+void p2_win(int** total1, int** total2, int** dwID);
+void tie(int** dwID);
 
 void print_bike(int x, int y, int c);
 void print_line(int y, int* line, int move);

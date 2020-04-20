@@ -211,7 +211,7 @@ void normalgame(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 		case 8: tail_n8(&total1, &total2, &dwID); break;
 		case 9: guess_n9(&total1, &total2, &dwID); break;
 		}
-		stopAllSounds(&dwID);
+		//stopAllSounds(dwID);
 		cls();
 		normalbound(c_gray);
 		waiting();
@@ -278,23 +278,23 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 		if (kbhit()) {
 			ch = getch();
 			if (ch >= '0' && ch <= '9') {
-				selectgame(ch - 48, &dwID, mciOpen, mciPlay);
+				selectgame(ch - 48, dwID, mciOpen, mciPlay);
 				return;
 			}
 			else if (ch == ESC) {
 				if (sel <= -1) {
-					selectgame(-2, &dwID, mciOpen, mciPlay);
+					selectgame(-2, dwID, mciOpen, mciPlay);
 					return;
 				}
 				else {
-					selectgame(-1, &dwID, mciOpen, mciPlay);
+					selectgame(-1, dwID, mciOpen, mciPlay);
 					return;
 				}
 			}
 			else {
 				for (i = 0; i < 9; i++) {
 					if (ch == __order[i] || ch == __order[i] + 32) {
-						selectgame(i + 10, &dwID, mciOpen, mciPlay);
+						selectgame(i + 10, dwID, mciOpen, mciPlay);
 						return;
 					}
 				}
@@ -315,22 +315,23 @@ void selectgame(int sel, int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPl
 	}
 	Sleep(100);
 	waiting();
+	int p = 0, q = 0;
 	switch (sel) {
-	case 1: click_n1(0, 0, &dwID); break;
-	case 2: maze_n2(0, 0, &dwID); break;
-	case 3: heart_n3(0, 0, &dwID); break;
-	case 4: run_n4(0, 0, &dwID); break;
-	case 5: color_n5(0, 0, &dwID); break;
-	case 6: thief_n6(0, 0, &dwID); break;
-	case 7: star_n7(0, 0, &dwID); break;
-	case 8: tail_n8(0, 0, &dwID); break;
-	case 9: guess_n9(0, 0, &dwID); break;
+	case 1: click_n1(&p, &q, &dwID); break;
+	case 2: maze_n2(&p, &q, &dwID); break;
+	case 3: heart_n3(&p, &q, &dwID); break;
+	case 4: run_n4(&p, &q, &dwID); break;
+	case 5: color_n5(&p, &q, &dwID); break;
+	case 6: thief_n6(&p, &q, &dwID); break;
+	case 7: star_n7(&p, &q, &dwID); break;
+	case 8: tail_n8(&p, &q, &dwID); break;
+	case 9: guess_n9(&p, &q, &dwID); break;
 	default: cls(); Sleep(900); break;
 	}
 	cls();
 	normalbound(c_gray);
 	waiting();
-	selectgame(0, &dwID, mciOpen, mciPlay);
+	selectgame(0, dwID, mciOpen, mciPlay);
 	return;
 }
 
@@ -338,7 +339,7 @@ void enter_menu(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 	while (1) {
 		waiting();
 		int selme = selectmenu(0); //메뉴 고르기
-		stopAllSounds(&dwID); //소리 정지
+		stopAllSounds(dwID); //소리 정지
 		if (!selme) normalgame(&dwID, mciOpen, mciPlay); //노말
 		else {
 			cls();

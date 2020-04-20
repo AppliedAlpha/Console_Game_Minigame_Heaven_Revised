@@ -1,7 +1,7 @@
 #include "../src/action.h"
 
 void color_n5(int* total1, int* total2, int* dwID) {
-	int i, j, game = 2000; //100=1√ ;
+	int i, j, game = 300; //100=1√ ;
 	int map[34][38] = { 0 };
 	cls();
 	normalbound(c_gray);
