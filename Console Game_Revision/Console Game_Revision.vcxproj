@@ -133,6 +133,8 @@
     <ClCompile Include="game_src\game8.c" />
     <ClCompile Include="game_src\game9.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="src\action.c" />
+    <ClCompile Include="src\menu.c" />
     <ClCompile Include="src\screen.c" />
     <ClCompile Include="src\sound.c" />
   </ItemGroup>
@@ -146,6 +148,8 @@
     <ClInclude Include="game_src\game7.h" />
     <ClInclude Include="game_src\game8.h" />
     <ClInclude Include="game_src\game9.h" />
+    <ClInclude Include="src\action.h" />
+    <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\screen.h" />
     <ClInclude Include="src\sound.h" />
   </ItemGroup>
