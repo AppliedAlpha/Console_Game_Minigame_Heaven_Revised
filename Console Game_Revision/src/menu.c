@@ -1,6 +1,4 @@
-#include <mmsystem.h>
-#include "action.h"
-int selme = 0;
+#include "menu.h"
 
 void selectmenu(int selcheck) {
 	char ch = 0;
@@ -16,7 +14,7 @@ void selectmenu(int selcheck) {
 		gotoxy(47, 38);
 		printf("※ ENTER키로 항목을 선택합니다.");
 	}
-	while (kbhit()) getch();
+	waiting();
 	if (!selcheck) Sleep(1200);
 	tc(c_white);
 	while (1) {

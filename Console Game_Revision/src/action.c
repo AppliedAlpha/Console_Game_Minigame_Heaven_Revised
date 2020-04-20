@@ -1,9 +1,16 @@
-#include <Windows.h>
 #include "action.h"
 
 typedef struct {
 	int posx, posy;
 }chrpos;
+
+void waiting() {
+	while (kbhit()) getch();
+}
+
+void cls() {
+	system("cls");
+}
 
 void gotoxy(int x, int y) {
 	COORD pos = { x, y };

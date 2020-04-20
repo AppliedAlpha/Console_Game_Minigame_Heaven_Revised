@@ -1,7 +1,4 @@
-#pragma comment(lib, "winmm.lib")
-#include <Windows.h>
-#include <mmsystem.h>
-#include "Digitalv.h"
+#include "sound.h"
 
 void stopAllSounds(int* dwID) {
 	mciSendCommandW(*dwID, MCI_CLOSE, 0, NULL);

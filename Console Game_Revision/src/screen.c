@@ -1,9 +1,4 @@
-#pragma warning(disable:4996)
-#include <Windows.h>
-#include <mmsystem.h>
-#include "Digitalv.h"
-#define WIDTH 80
-#define HEIGHT 40
+#include "screen.h"
 
 HWND getConsoleWindowHandle() {
 	WCHAR title[2048] = { 0 };
@@ -39,14 +34,6 @@ void paint(HWND hWnd, int dpi, HBITMAP image, int sizex, int sizey) {
 	DeleteDC(memdc);
 	DeleteObject(bitmap);
 	ReleaseDC(hWnd, hdc);
-}
-
-void waiting() {
-	while (kbhit()) getch();
-}
-
-void cls() {
-	system("cls");
 }
 
 void init_screen() {
