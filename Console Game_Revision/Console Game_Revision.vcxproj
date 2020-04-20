@@ -123,7 +123,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="game_src\game1.c" />
+    <ClCompile Include="game_src\game2.c" />
+    <ClCompile Include="game_src\game3.c" />
+    <ClCompile Include="game_src\game4.c" />
+    <ClCompile Include="game_src\game5.c" />
+    <ClCompile Include="game_src\game6.c" />
+    <ClCompile Include="game_src\game7.c" />
+    <ClCompile Include="game_src\game8.c" />
+    <ClCompile Include="game_src\game9.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="src\screen.c" />
+    <ClCompile Include="src\sound.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game_src\game1.h" />
+    <ClInclude Include="game_src\game2.h" />
+    <ClInclude Include="game_src\game3.h" />
+    <ClInclude Include="game_src\game4.h" />
+    <ClInclude Include="game_src\game5.h" />
+    <ClInclude Include="game_src\game6.h" />
+    <ClInclude Include="game_src\game7.h" />
+    <ClInclude Include="game_src\game8.h" />
+    <ClInclude Include="game_src\game9.h" />
+    <ClInclude Include="src\screen.h" />
+    <ClInclude Include="src\sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

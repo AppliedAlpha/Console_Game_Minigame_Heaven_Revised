@@ -18,5 +18,73 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game_src\game1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game6.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game7.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_src\game9.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\screen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game_src\game1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_src\game9.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

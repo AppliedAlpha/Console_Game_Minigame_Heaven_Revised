@@ -3,6 +3,17 @@
 #include <time.h>
 #include <conio.h>
 #include <Windows.h>
+#include "game_src/game1.h"
+#include "game_src/game2.h"
+#include "game_src/game3.h"
+#include "game_src/game4.h"
+#include "game_src/game5.h"
+#include "game_src/game6.h"
+#include "game_src/game7.h"
+#include "game_src/game8.h"
+#include "game_src/game9.h"
+#include "src/screen.h"
+#include "src/sound.h"
 #pragma warning(disable:4996)
 #define WIDTH 80
 #define HEIGHT 40
@@ -120,63 +131,8 @@ void StopAllSounds(int dwID) {
 }
 //소리 정지 함수
 
-void Opening() {
-	mciOpen.lpstrElementName = "Glacia1.mp3";
-	mciOpen.lpstrDeviceType = "mpegvideo";
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-	dwID = mciOpen.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)& mciPlay);
-	system("color 0f");
-	cls();
-	Sleep(972);
-	system("color 7f");
-	Sleep(324);
-	char open1[100], open2[100], open3[100], open4[100], open5[100];
-	int dpi;
-	HBITMAP o1, o2, o3, o4, o5;
-	HWND hWnd = getConsoleWindowHandle();
-	dpi = GetDPI(hWnd);
-	sprintf(open1, "Open1.bmp");
-	sprintf(open2, "Open2.bmp");
-	sprintf(open3, "Open3.bmp");
-	sprintf(open4, "Open4.bmp");
-	sprintf(open5, "Open5.bmp");
-	o1 = (HBITMAP)LoadImage(NULL, open1, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	o2 = (HBITMAP)LoadImage(NULL, open2, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	o3 = (HBITMAP)LoadImage(NULL, open3, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	o4 = (HBITMAP)LoadImage(NULL, open4, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	o5 = (HBITMAP)LoadImage(NULL, open5, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	paint(hWnd, dpi, o1, 800, 800);
-	Sleep(2508);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, o2, 800, 800);
-	Sleep(2450);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, o3, 800, 800);
-	Sleep(2450);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, o4, 800, 800);
-	Sleep(2450);
-	cls();
-	Sleep(85);
-	paint(hWnd, dpi, o5, 800, 800);
-	Sleep(2240);
-	cls();
-	Sleep(280);
-	system("color 0f");
-}
-//오프닝 함수
 
-void Console() {
-	char chtemp[50];
-	sprintf(chtemp, "mode con cols=%d lines=%d", WIDTH, HEIGHT);
-	system(chtemp);
-	system("title Minigames Heaven");
-}
-//콘솔 조정 함수
+
 
 void tc(int a) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), a);
@@ -260,13 +216,7 @@ void border(int y) {
 }
 //경계선 출력 함수
 
-void clearCursor() {
-	CONSOLE_CURSOR_INFO c = { 0 };
-	c.dwSize = 1;
-	c.bVisible = FALSE;
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &c);
-}
-//커서 삭제 함수
+
 
 void BGM() {
 	mciOpen.lpstrElementName = "Glacia1.mp3";
@@ -2510,10 +2460,9 @@ void selectgame(int sel) {
 }
 
 void main() {
-	srand(time(NULL)); //랜덤 난수 생성
-	Console(); //콘솔 정보 변경
-	clearCursor(); //커서 삭제
-	Opening(); //오프닝
+	srand(time(NULL));
+	init_screen();
+	open(dwID, mciOpen, mciPlay);
 	while (kbhit()) getch();
 	PlaySound(TEXT("michun.wav"), 0, SND_FILENAME | SND_ASYNC); //미천합니다 Sound
 	mciOpen.lpstrElementName = "Glacia2.mp3"; //배경음
