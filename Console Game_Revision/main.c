@@ -62,6 +62,12 @@ DWORD m_dwDeviceID;
 MCI_OPEN_PARMS mciOpen;
 MCI_PLAY_PARMS mciPlay;
 
+struct AUDIO {
+	int audio_d;
+	MCI_OPEN_PARMS audio_openp;
+	MCI_PLAY_PARMS audio_playp;
+};
+
 char gm[20][50] = { "", "하노이 탑", "미로 찾기", "러브 찬스", "신호등 달리기", "색칠 놀이", "도둑이야", "별똥별이다", "등짝을 보자", "이긴 사람", "???", "???", "???", "???", "???", "???", "???","???", "???" };
 char order[9] = { 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'F', 'G' };
 int selme = 0;
@@ -81,55 +87,6 @@ typedef struct {
 	int posx, posy;
 }chrpos;
 
-void cls() {
-	system("cls");
-}
-//화면 지우는 함수
-
-HWND getConsoleWindowHandle() {
-	WCHAR title[2048] = { 0 };
-	GetConsoleTitle(title, 2048);
-	HWND hWnd = FindWindow(NULL, title);
-	SetConsoleTitle(title);
-	return hWnd;
-}
-
-int GetDPI(HWND hWnd) {
-	HANDLE user32 = GetModuleHandle(TEXT("user32"));
-	FARPROC func = GetProcAddress(user32, "GetDpiForWindow");
-	if (func == NULL) return 96;
-	return((UINT(__stdcall*)(HWND))func)(hWnd);
-}
-//DPI 얻어오기 (이미지 출력)
-
-void GetBMP(HDC hdc, HDC memdc, HBITMAP image) {
-	BITMAP bitmap;
-	HDC bitmapDC = CreateCompatibleDC(hdc);
-	GetObject(image, sizeof(bitmap), &bitmap);
-	SelectObject(bitmapDC, image);
-	BitBlt(memdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, bitmapDC, 0, 0, SRCCOPY);
-	DeleteDC(bitmapDC);
-}
-//BMP 얻어오기 (이미지 출력)
-
-void paint(HWND hWnd, int dpi, HBITMAP image, int sizex, int sizey) {
-	HDC hdc = GetDC(hWnd);
-	HDC memdc = CreateCompatibleDC(hdc);
-	HBITMAP bitmap = CreateCompatibleBitmap(hdc, sizex, sizey);
-	SelectObject(memdc, bitmap);
-	GetBMP(hdc, memdc, image);
-	StretchBlt(hdc, 0, 0, sizex, sizey, memdc, 0, 0, sizex, sizey, SRCCOPY);
-	DeleteDC(memdc);
-	DeleteObject(bitmap);
-	ReleaseDC(hWnd, hdc);
-}
-//이미지 그려내기
-
-void StopAllSounds(int dwID) {
-	mciSendCommandW(dwID, MCI_CLOSE, 0, NULL);
-	PlaySound(NULL, 0, 0);
-}
-//소리 정지 함수
 
 
 
@@ -215,21 +172,6 @@ void border(int y) {
 	for (int i = 0; i < 38; i++) printf("〓");
 }
 //경계선 출력 함수
-
-
-
-void BGM() {
-	mciOpen.lpstrElementName = "Glacia1.mp3";
-	mciOpen.lpstrDeviceType = "mpegvideo";
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-	dwID = mciOpen.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)& mciPlay);
-	//MCI_NOTIFY: 기본, MCI_DGV_PLAY_REPEAT: 반복
-	//mciSendCommandW(dwID, MCI_PAUSE, MCI_NOTIFY, (DWORD)(LPVOID)&m_mciPlayParms);     // Pause
-	//mciSendCommandW(dwID, MCI_RESUME, 0, NULL);       // resume
-	//mciSendCommandW(dwID, MCI_CLOSE, 0, NULL);        // stop
-}
-//BGM 제어 함수
 
 void mt_start(int a) {
 	int i;
@@ -2324,7 +2266,7 @@ void normalgame() {
 		case 8: tail_n8(); break;
 		case 9: guess_n9(); break;
 		}
-		StopAllSounds(dwID);
+		stopAllSounds(dwID);
 		cls();
 		normalbound(c_gray);
 		while (kbhit()) getch();
@@ -2462,32 +2404,18 @@ void selectgame(int sel) {
 void main() {
 	srand(time(NULL));
 	init_screen();
-	open(dwID, mciOpen, mciPlay);
-	while (kbhit()) getch();
-	PlaySound(TEXT("michun.wav"), 0, SND_FILENAME | SND_ASYNC); //미천합니다 Sound
-	mciOpen.lpstrElementName = "Glacia2.mp3"; //배경음
-	mciOpen.lpstrDeviceType = "mpegvideo";
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-	dwID = mciOpen.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)& mciPlay); //배경음 플레이
-	maintitle(0); //메인 화면
-	StopAllSounds(dwID); //끝날 시 소리 정지
-	cls(); //비우기
-	{
-		while (kbhit()) getch();
-		PlaySound(TEXT("select_mode.wav"), 0, SND_FILENAME | SND_ASYNC);
-		Sleep(20);
-		while (kbhit()) getch();
-		mciOpen.lpstrElementName = "sunburst.mp3";
-		mciOpen.lpstrDeviceType = "mpegvideo";
-		mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)& mciOpen);
-		dwID = mciOpen.wDeviceID;
-		mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)& mciPlay);
-	} //음악 재생
+	open_audio(&dwID, mciOpen, mciPlay);
+	open(getConsoleWindowHandle());
+	waiting();
+	title_audio(&dwID, mciOpen, mciPlay);
+	maintitle(0);
+	stopAllSounds(&dwID);
+	cls();
+	select_audio(&dwID, mciOpen, mciPlay);
 	while (1) {
-		while (kbhit()) getch();
+		waiting();
 		selectmenu(0); //메뉴 고르기
-		StopAllSounds(dwID); //소리 정지
+		stopAllSounds(&dwID); //소리 정지
 		if (!selme) normalgame(); //노말
 		else {
 			cls();
