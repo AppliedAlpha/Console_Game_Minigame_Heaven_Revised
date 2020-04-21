@@ -30,6 +30,7 @@
 > 제일 간단한 버튼 클릭 싸움입니다.<br />버튼을 빠르게 누르면 이길 수 있어요! 플레이 방법도 룰도 별로 없습니다.
 
 <br />
+
 <img src=README_image/2.jpg width="40%" height="40%"/> <img src=README_image/h2.bmp width="40%" height="40%"/><br />
 
 2. 미로 찾기
@@ -38,6 +39,7 @@
 > 미로는 방사형의 랜덤한 알고리즘으로 매번 다른 길이 만들어집니다.<br />걱정 마세요! 제일 오른쪽 아래로 가는 길은 *반드시 하나 이상* 존재하니까 안심하세요.<br />여러분이 해야 할 건 그저 길을 찾아 가는 것뿐이면 됩니다.
 
 <br />
+
 <img src=README_image/3.jpg width="40%" height="40%"/> <img src=README_image/h3.bmp width="40%" height="40%"/><br />
 
 3. 러브 찬스
@@ -46,6 +48,7 @@
 > 이 게임은 자신만의 플레이를 할 수가 없습니다.<br />내가 먼저 가져가지 않으면 상대방이 가져가버리는 대표적인 *간섭 가능한* 경쟁형 구도를 가지고 있습니다.<br />과연 당신은 얼마나 많은 하트를 쟁취할 수 있을까요?
 
 <br />
+
 <img src=README_image/4.jpg width="40%" height="40%"/> <img src=README_image/h4.bmp width="40%" height="40%"/><br />
 
 4. 신호등 레이스
@@ -54,6 +57,7 @@
 > 이 레이스의 중요한 점은 가운데에 언제 빨간 불로 바뀔 줄 모르는 신호등이 있다는 겁니다.<br />빨간 불에 버튼을 누르고 있다면 당신은 *뒤로 가게 됩니다.*<br />그리고 그 감소치는 절대 작지 않기 때문에, 순간순간의 순발력이 우승자를 결정지을 것입니다.
 
 <br />
+
 <img src=README_image/5.jpg width="40%" height="40%"/> <img src=README_image/h5.bmp width="40%" height="40%"/><br />
 
 5. 색칠 놀이
@@ -62,6 +66,7 @@
 > 제작자가 9개의 미니게임들 중에서 가장 (재밌다고) 자부하는 게임입니다.<br />당신이 가는 곳은 당신의 땅이 되겠지만, 당신이 간과하는 사이에 상대방은 이미 당신의 땅을 점령하고 있을 지도 모릅니다.<br />최대한 많은 땅을 먹을 수 있도록 최선을 다해서 움직이세요!
 
 <br />
+
 <img src=README_image/6.jpg width="40%" height="40%"/> <img src=README_image/h6.bmp width="40%" height="40%"/><br />
 
 6. 도둑이야
@@ -75,6 +80,7 @@
 종료 조건이 다양한 게임이니만큼 섬세한 컨트롤과 전략적인 플레이가 승리를 이끌어 줄 지도 모릅니다.
 
 <br />
+
 <img src=README_image/7.jpg width="40%" height="40%"/> <img src=README_image/h7.bmp width="40%" height="40%"/><br />
 
 7. 별똥별이다
@@ -84,6 +90,7 @@
 별은 <u>노란색 → 초록색 → 파란색 → 노란색</u> 순으로 칠해집니다.<br />즉 먼저 별을 완벽하게 **세 번** 칠한다면 이길 수 있습니다.<br />'도둑이야'와 마찬가지로 섬세한 컨트롤이 필요할 지도 모릅니다.<br />자신만의 루트를 계산하고 움직여보세요!
 
 <br />
+
 <img src=README_image/8.jpg width="40%" height="40%"/> <img src=README_image/h8.bmp width="40%" height="40%"/><br />
 
 8. 등짝을 보자
@@ -92,6 +99,7 @@
 > 하트를 먹으면 길이가 5 증가합니다.<br />여타 다른 Snake 게임과 마찬가지로, *자신에게 부딪혀도 죽으며 상대의 승리가 됩니다.*<br />또 키를 한 번씩만 눌러주셔야 원활하게 방향이 바뀔 것이니 참고해주세요. ~~안 그러면 버그 걸려요~~
 
 <br />
+
 <img src=README_image/9.jpg width="40%" height="40%"/> <img src=README_image/h9.bmp width="40%" height="40%"/><br />
 
 9. 이긴 사람
