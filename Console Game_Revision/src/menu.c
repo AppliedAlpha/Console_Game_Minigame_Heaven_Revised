@@ -231,7 +231,6 @@ void normalgame(int* dwID, MCI_OPEN_PARMS mciOpen, MCI_PLAY_PARMS mciPlay) {
 		case 8: tail_n8(&total1, &total2, &dwID); break;
 		case 9: guess_n9(&total1, &total2, &dwID); break;
 		}
-		stopAllSounds(dwID);
 		cls();
 		normalbound(c_gray);
 		waiting();
